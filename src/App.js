@@ -1,8 +1,34 @@
-import React, { useState } from 'react'
-import './App.css'
+import React, { useState } from 'react';
+import { evaluate } from 'mathjs';  // Import mathjs
+import './App.css';
 
 function App() {
   const [value, setValue] = useState("");
+
+  const handleButtonClick = (e) => {
+    const buttonValue = e.target.value;
+
+    switch (buttonValue) {
+      case 'AC':
+        setValue("");
+        break;
+      case 'DE':
+        setValue(value.slice(0, -1));
+        break;
+      case '=':
+        try {
+          // Evaluate the expression using mathjs
+          const result = evaluate(value);
+          setValue(result.toString());
+        } catch {
+          setValue('Error');
+        }
+        break;
+      default:
+        setValue(value + buttonValue);
+        break;
+    }
+  };
 
   return (
     <div>
@@ -10,42 +36,42 @@ function App() {
         <div className="calculator">
           <form action="">
               <div className='display'>
-                <input type="text" value={value}/>
+                <input type="text" value={value} readOnly />
               </div>
               <div>
-                <input type='button' value="AC" onClick={(e) => setValue(" ")}/>
-                <input type='button' value="DE" onClick={(e) => setValue(value.slice(0, -1))}/>
-                <input type='button' value="." onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="/" onClick={(e) => setValue(value + e.target.value)}/>
+                <input type='button' value="AC" onClick={handleButtonClick} />
+                <input type='button' value="DE" onClick={handleButtonClick} />
+                <input type='button' value="." onClick={handleButtonClick} />
+                <input type='button' value="/" onClick={handleButtonClick} />
               </div>
               <div>
-                <input type='button' value="7" onClick={(e) => setValue(value + e.target.value)} />
-                <input type='button' value="8" onClick={(e) => setValue( value + e.target.value)}/>
-                <input type='button' value="9" onClick={(e) => setValue( value + e.target.value)}/>
-                <input type='button' value="*" onClick={(e) => setValue(value + e.target.value)}/>
+                <input type='button' value="7" onClick={handleButtonClick} />
+                <input type='button' value="8" onClick={handleButtonClick} />
+                <input type='button' value="9" onClick={handleButtonClick} />
+                <input type='button' value="*" onClick={handleButtonClick} />
               </div>
               <div>
-                <input type='button' value="4" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="5" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="6" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="+" onClick={(e) => setValue(value + e.target.value)}/>
+                <input type='button' value="4" onClick={handleButtonClick} />
+                <input type='button' value="5" onClick={handleButtonClick} />
+                <input type='button' value="6" onClick={handleButtonClick} />
+                <input type='button' value="+" onClick={handleButtonClick} />
               </div>
               <div>
-                <input type='button' value="1" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="2" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="3" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="-" onClick={(e) => setValue(value + e.target.value)}/>
+                <input type='button' value="1" onClick={handleButtonClick} />
+                <input type='button' value="2" onClick={handleButtonClick} />
+                <input type='button' value="3" onClick={handleButtonClick} />
+                <input type='button' value="-" onClick={handleButtonClick} />
               </div>
               <div>
-                <input type='button' value="00" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="0" onClick={(e) => setValue(value + e.target.value)}/>
-                <input type='button' value="=" className='equal' onClick={(e) => setValue( eval(value))}/>
+                <input type='button' value="00" onClick={handleButtonClick} />
+                <input type='button' value="0" onClick={handleButtonClick} />
+                <input type='button' value="=" className='equal' onClick={handleButtonClick} />
               </div>
           </form>
         </div>
       </div>
-      </div>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
